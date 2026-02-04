@@ -14,19 +14,116 @@
     <table border="1" class="table table-striped table-responsive-md">
         <thead>
         <tr>
-            <th scope="col">Product Name</th>
-            <th scope="col">Quantity</th>
+            <th scope="col" style="width: 45%;">Product Name</th>
+            <th scope="col" style="width: 40%;">Quantity</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="product: ${products}">
-            <td th:text="${product.productName}"></td>
-            <td th:text="${product.productQuantity}"></td>
+        <tr th:each="product : ${products}" th:data-id="${product.productId}">
+            <td class="editable"
+                data-field="productName"
+                th:text="${product.productName}"> </td>
+
+            <td class="editable" data-field="productQuantity"
+                th:text="${product.productQuantity}"></td>
         </tr>
         </tbody>
     </table>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<script>
+
+
+    $(document).ready(function() {
+
+        $('.editable').on('dblclick', function() {
+            const $cell = $(this);
+
+            if ($cell.hasClass('editing')) return;
+
+            var currentText = $cell.text();
+            $cell.addClass('editing');
+
+            // Replace text with an Input field
+            var $input = $('<input type="text" class="form-control">')
+                .val(currentText)
+                .css({
+                    'width': '100%',            // Fill the cell exactly
+                    'box-sizing': 'border-box', // Ensure padding is included in width
+                    'height': '100%',           // Match height
+                    'padding': '0 5px',         // Reduce padding to prevent height jump
+                    'margin': '0'
+                });
+
+            $cell.html($input);
+            $input.focus();
+
+            // 2. Handle Key Presses (Enter or Esc)
+            $input.on('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Stop newline
+                    saveData($cell, $(this).val(), currentText);
+                }
+                else if (e.key === 'Escape') {
+                    cancelEdit($cell, currentText);
+                }
+            });
+
+            // 3. Handle Blur (Clicking away) -> Cancel as requested
+            $input.on('blur', function() {
+                cancelEdit($cell, currentText);
+            });
+        });
+
+        function cancelEdit($cell, originalText) {
+            $cell.removeClass('editing');
+            $cell.html(originalText);
+        }
+
+        function saveData($cell, newValue, originalText) {
+
+            // remove event listener to prevent 'blur' from cancelling the save
+            $cell.find('input').off('blur');
+
+            // 1. Get the row to find ID and other data
+            var $row = $cell.closest('tr');
+            var productId = $row.data('id');
+
+            // 2. Construct the FULL object
+            // We must grab the OTHER cell's text, otherwise Quantity might become 0
+            var currentName = $row.find('td[data-field="productName"]').text();
+            var currentQty = $row.find('td[data-field="productQuantity"]').text();
+
+            // Determine which field we are currently updating
+            var field = $cell.data('field');
+            if (field === 'productName') currentName = newValue;
+            if (field === 'productQuantity') currentQty = newValue;
+
+            var productDto = {
+                productId: productId,
+                productName: currentName,
+                productQuantity: parseInt(currentQty)
+            };
+
+            $.ajax({
+                url: 'http://localhost:8080/product/api/edit',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(productDto),
+                success: function(response) {
+                    $cell.removeClass('editing');
+                    $cell.text(newValue);
+                },
+                error: function(xhr) {
+                    alert("Error updating: " + xhr.responseText);
+                    cancelEdit($cell, originalText); // Revert on error
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>

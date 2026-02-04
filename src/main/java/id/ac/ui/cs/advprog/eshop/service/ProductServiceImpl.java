@@ -1,6 +1,8 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
+import id.ac.ui.cs.advprog.eshop.exception.ProductNotFound;
 import id.ac.ui.cs.advprog.eshop.model.Product;
+import id.ac.ui.cs.advprog.eshop.model.ProductDto;
 import id.ac.ui.cs.advprog.eshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,17 @@ public class ProductServiceImpl implements ProductService{
     public Product create(Product product) {
         productRepository.create(product);
         return null;
+    }
+
+    @Override
+    public Product edit(ProductDto productDto) throws ProductNotFound {
+        String id = productDto.getProductId();
+        String name = productDto.getProductName();
+        int quantity = productDto.getProductQuantity();
+        Product product = productRepository.findById(id);
+        product.setProductName(name);
+        product.setProductQuantity(quantity);
+        return product;
     }
 
     @Override

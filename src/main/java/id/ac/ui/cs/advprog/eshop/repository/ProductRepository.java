@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
+import id.ac.ui.cs.advprog.eshop.exception.ProductNotFound;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,13 @@ public class ProductRepository {
     public Product create(Product product) {
         productData.add(product);
         return product;
+    }
+
+    public Product findById(String id) throws ProductNotFound {
+        return productData.stream()
+                .filter(p -> p.getProductId().equals(id))
+                .findFirst()
+                .orElseThrow(ProductNotFound::new);
     }
 
     public Iterator<Product> findAll() {
