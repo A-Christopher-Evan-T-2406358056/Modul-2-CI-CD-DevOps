@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
+import id.ac.ui.cs.advprog.eshop.exception.ProductNotFound;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Iterator;
+import java.util.Random;
+import java.util.random.RandomGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,9 +19,12 @@ class ProductRepositoryTest {
 
     @InjectMocks
     ProductRepository productRepository;
+    Random rng;
+    final int seed = 0;
 
     @BeforeEach
     void setUp() {
+        rng = new Random(seed);
     }
 
     @Test
@@ -64,5 +70,70 @@ class ProductRepositoryTest {
         savedProduct = productIterator.next();
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
+    }
+
+    private Product[] createNDummyProducts(int N) {
+        Product[] dummyProducts = new Product[N];
+        for (int i = 0; i < N; i++) {
+            Product product = new Product();
+            product.setProductName("Product" + i);
+            product.setProductQuantity(rng.nextInt(0, 1000000));
+            dummyProducts[i] = product;
+            productRepository.create(product);
+        }
+        return dummyProducts;
+    }
+
+    @Test
+    void testFindProductByIdFromMoreThanOneProduct() throws ProductNotFound {
+        Product[] product = createNDummyProducts(3);
+
+        assertDoesNotThrow(() -> productRepository.findById(product[0].getProductId()));
+        assertDoesNotThrow(() -> productRepository.findById(product[1].getProductId()));
+        assertDoesNotThrow(() -> productRepository.findById(product[2].getProductId()));
+
+        assertEquals(product[0], productRepository.findById(product[0].getProductId()));
+        assertEquals(product[1], productRepository.findById(product[1].getProductId()));
+        assertEquals(product[2], productRepository.findById(product[2].getProductId()));
+
+        Product newProduct = new Product();
+
+        assertThrows(ProductNotFound.class, () -> productRepository.findById(newProduct.getProductId()));
+    }
+
+    @Test
+    void testFindProductByIdFromEmptyRepository() {
+        Product product = new Product();
+        assertThrows(ProductNotFound.class, () -> productRepository.findById(product.getProductId()));
+    }
+
+    @Test
+    void testRemoveProductByIdFromMoreThanOneProduct() throws ProductNotFound {
+        Product[] product = createNDummyProducts(3);
+
+        assertDoesNotThrow(() -> productRepository.removeById(product[0].getProductId()));
+        assertThrows(ProductNotFound.class, () -> productRepository.findById(product[0].getProductId()));
+        assertDoesNotThrow(() -> productRepository.findById(product[1].getProductId()));
+        assertDoesNotThrow(() -> productRepository.findById(product[2].getProductId()));
+
+        assertDoesNotThrow(() -> productRepository.removeById(product[1].getProductId()));
+        assertThrows(ProductNotFound.class, () -> productRepository.findById(product[0].getProductId()));
+        assertThrows(ProductNotFound.class, () -> productRepository.findById(product[1].getProductId()));
+        assertDoesNotThrow(() -> productRepository.findById(product[2].getProductId()));
+
+        assertDoesNotThrow(() -> productRepository.removeById(product[2].getProductId()));
+        assertThrows(ProductNotFound.class, () -> productRepository.findById(product[0].getProductId()));
+        assertThrows(ProductNotFound.class, () -> productRepository.findById(product[1].getProductId()));
+        assertThrows(ProductNotFound.class, () -> productRepository.findById(product[2].getProductId()));
+
+        assertThrows(ProductNotFound.class, () -> productRepository.removeById(product[0].getProductId()));
+        assertThrows(ProductNotFound.class, () -> productRepository.removeById(product[1].getProductId()));
+        assertThrows(ProductNotFound.class, () -> productRepository.removeById(product[2].getProductId()));
+    }
+
+    @Test
+    void testRemoveProductByIdFromEmptyRepository() {
+        Product product = new Product();
+        assertThrows(ProductNotFound.class, () -> productRepository.removeById(product.getProductId()));
     }
 }
