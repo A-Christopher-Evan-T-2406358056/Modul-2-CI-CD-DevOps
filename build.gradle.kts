@@ -2,6 +2,7 @@ val seleniumJavaVersion = "4.14.1"
 val seleniumJupiterVersion = "5.0.1"
 val webdrivermanagerVersion = "5.6.3"
 val mockitoAgent = configurations.create("mockitoAgent")
+val mockitoVersion = "4.5.1"
 
 plugins {
     java
@@ -53,8 +54,8 @@ dependencies {
     testImplementation("org.seleniumhq.selenium:selenium-java:${seleniumJavaVersion}")
     testImplementation("io.github.bonigarcia:selenium-jupiter:${seleniumJupiterVersion}")
     testImplementation("io.github.bonigarcia:webdrivermanager:${webdrivermanagerVersion}")
-    testImplementation("org.mockito:mockito-core:5.14.2")
-    mockitoAgent("org.mockito:mockito-core:5.14.2") { isTransitive = false }}
+    testImplementation("org.mockito:mockito-core:${mockitoVersion}")
+    mockitoAgent("org.mockito:mockito-core:${mockitoVersion}") { isTransitive = false }}
 
 tasks.register<Test>("unitTest") {
     description = "Runs unit tests."
