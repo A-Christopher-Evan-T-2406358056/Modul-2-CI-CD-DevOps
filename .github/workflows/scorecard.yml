@@ -12,10 +12,9 @@ on:
   schedule:
     - cron: '19 8 * * 5'
   push:
-    branches: [ "main", "cicd" ]
+    branches: [ "main", "cicd", "module-2-exercise" ]
 
 # Declare default permissions as read only.
-permissions: read-all
 
 jobs:
   analysis:
@@ -29,8 +28,8 @@ jobs:
       # Needed to publish results and get a badge (see publish_results below).
       id-token: write
       # Uncomment the permissions below if installing in a private repository.
-      # contents: read
-      # actions: read
+      contents: read
+      actions: read
 
     steps:
       - name: "Checkout code"
