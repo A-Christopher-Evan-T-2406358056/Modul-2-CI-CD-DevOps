@@ -2,7 +2,7 @@ val seleniumJavaVersion = "4.14.1"
 val seleniumJupiterVersion = "5.0.1"
 val webdrivermanagerVersion = "5.6.3"
 val mockitoAgent = configurations.create("mockitoAgent")
-val mockitoVersion = "4.5.1"
+val mockitoVersion = "5.14.2"
 
 plugins {
     java
