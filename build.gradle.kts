@@ -55,7 +55,8 @@ dependencies {
     testImplementation("io.github.bonigarcia:selenium-jupiter:${seleniumJupiterVersion}")
     testImplementation("io.github.bonigarcia:webdrivermanager:${webdrivermanagerVersion}")
     testImplementation("org.mockito:mockito-core:${mockitoVersion}")
-    mockitoAgent("org.mockito:mockito-core:${mockitoVersion}") { isTransitive = false }}
+    mockitoAgent("org.mockito:mockito-core:${mockitoVersion}") { isTransitive = false }
+}
 
 tasks.register<Test>("unitTest") {
     description = "Runs unit tests."

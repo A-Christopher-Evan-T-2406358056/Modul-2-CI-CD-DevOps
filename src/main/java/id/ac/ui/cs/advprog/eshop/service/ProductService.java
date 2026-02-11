@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface ProductService {
     public Product create(Product product);
+
     public Product edit(ProductDto productDto) throws ProductNotFound;
+
     public List<Product> findAll();
+
     public void removeById(String id) throws ProductNotFound;
 }
