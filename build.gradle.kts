@@ -16,10 +16,11 @@ version = "0.0.1-SNAPSHOT"
 description = "eshop"
 
 sonar {
-  properties {
-    property("sonar.projectKey", "A-Christopher-Evan-T-2406358056_Modul-1-Coding-Standards")
-    property("sonar.host.url", "a-christopher-evan-t-2406358056")
-  }
+    properties {
+        property("sonar.projectKey", "A-Christopher-Evan-T-2406358056_Modul-1-Coding-Standards")
+        property("sonar.organization", "a-christopher-evan-t-2406358056")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }
 
 
