@@ -52,5 +52,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: gradle
-      - name: Build and analysis Sonar with Gradle
-        run: gradle sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+      - name: Build and Analyze with Gradle
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew sonar --info
