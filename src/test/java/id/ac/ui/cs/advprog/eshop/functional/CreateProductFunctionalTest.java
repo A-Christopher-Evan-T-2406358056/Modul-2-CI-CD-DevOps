@@ -38,7 +38,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void createProduct_isCorrect(ChromeDriver driver)  {
+    void createProduct_isCorrect(ChromeDriver driver) throws Exception {
         driver.get(baseUrl + "/product/list");
 
         driver.findElement(By.partialLinkText("Create Product")).click();
