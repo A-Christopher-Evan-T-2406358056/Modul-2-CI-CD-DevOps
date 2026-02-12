@@ -23,7 +23,7 @@ jobs:
         uses: koyeb/action-git-deploy@v1
         with:
           app-name: "progjut"
-          service-name: "Tutorial2"
+          service-name: "tutorial2"
           service-instance-type: "free"
           service-ports: "8080:http"
           service-routes: "/:8080"
