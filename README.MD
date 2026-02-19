@@ -68,3 +68,67 @@ cakupannya terlebih dahulu: apakah ini fitur baru, atau sekadar kode tambahan un
 
 ## Modul 2
 
+### Tautan
+
+[Analisis Sonarcloud](https://sonarcloud.io/project/overview?id=A-Christopher-Evan-T-2406358056_Modul-1-Coding-Standards)
+[Deployment Koyeb](progjut-progjut-321aaaa2.koyeb.app/)
+
+### Code quality fixes
+
+#### Dependency verification issues
+
+Gradle berfungsi digunakan untuk manajemen depensensi. Namun setiap dependensi tersebut pada build yang baru akan
+langsung unduh dari sumber internet lain. Hal ini bermasalah karena bisa saja library yang digunakan compromised,
+bisa saja karena jaringan corrupted, ataupun pada sumber aslinya disisipkan program bahaya. Isu ini menonjol karena
+penggunaan CI / CD github actions menggunakan mesin baru untuk aksi selanjutnya. Solusinya adalah menyetor kunci SHA
+pada lokal sehingga dapat verifikasi dependensi yang digunakan environment lokal sama dengan production.
+
+`./gradlew --write-verification-metadata pgp,sha256 --export-keys --refresh-keys clean build test check`
+
+Gradle sudah memiliki fitur startup menabung kunci semua dependency tergantung task yang dijalankan. Maka saya jalankan
+perintah tersebut dan mendapatkan berbagai berkas verification dalam direktori gradle yang digunakan untuk build
+berikutnya agar pada production tetap pakai dependency yang sama.
+
+`cat jquery.min.js | openssl dgst -sha384 -binary | openssl base64 -A`
+
+Khusus penggunaan CDN untuk impor dependency pada template, saya benarkan dengan mengunduh pustakanya dan mencari
+SHA keynya tersebut.
+
+#### Unnecessary throw exception
+
+Sonarcloud pindai kode dan saya sadar beberapa fungsi sebenarnya tidak perlu dispesifikasi throw Exception (karena
+memang tidak mungkin melempar exception). Walau umumnya hanya terjadi dikode template, saya juga melakukan beberapa
+kesalahan ini pada testcase tertentu dalam unit tests.
+
+#### Misc code quality lain
+
+Kesalahan lain meliputi penamaan variabel yang tidak sesuai standar java (yakni mudah dibenarkan dengan ganti nama
+saja). Ada juga kesalahan memasuki nested fungsi yang dimana tidak perlu dalam javascript, penaruhan fungsi sebaik
+mungkin
+pada scope terluar. Hal ini mudah dilakukan secara tidak sengaja jika melakukan banyak nesting seperti pustaka jquery.
+Dampak nested fungsi terlalu dalam tidak hanya pada performa, namun juga membuat kode tidak enak dilihat. Juga ada
+beberapa kesalahan sederhana javascript seperti menggunakan global parseInt() ketimbang lebih spesifik
+Number.parseInt().
+
+### CI / CD
+
+Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current
+implementation has met the definition of Continuous Integration and Continuous
+Deployment? Explain the reasons (minimum 3 sentences)!
+
+Saya yakin dengan workflow repositori ini sudah implementasi CI / CD. Pertama implementasi workflow CI menggunakan hal
+berikut
+
+- SonarCloud : Menganalisis banyak hal terkait clean code, test coverage, security, dan linting
+- Scorecards : Menganalisis spesifik terkait keamanan repositori
+- Gradle : Memudahkan menjalankan environment build dan test yang sama pada deployment. Gradle build sudah otomatis
+  menjalankan seluruh unit test.
+
+Terlihat semua tools tersebut menjaga integritas kode secara otomatis (tidak perlu run unit test, baca kode, etc).
+Dengan menggunakan github workflow untuk otomatis menjalankan tools tersebut, ini memberikan seolah - olah kode
+dievaluasi secara
+otomatis seakan proses development berjalan, sehingga mengikuti definisi Continuous dan Integration dalam CI. Terkait CD
+juga sama,
+dengan github workflow, proses menjalankan aplikasi untuk production dapat diotomasi. Sedangkan berbagai tools dapat
+digunakan untuk
+memudahkan deploymentnya (Dalam kasus ini saya menggunakan Koyeb)
