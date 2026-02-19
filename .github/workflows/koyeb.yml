@@ -15,12 +15,12 @@ jobs:
       cancel-in-progress: true
     steps:
       - name: Install and configure the Koyeb CLI
-        uses: koyeb-community/koyeb-actions@v2
+        uses: koyeb-community/koyeb-actions@969e180512fa08ddac5231e2f78c8fb025fd5db7
         with:
           api_token: "${{ secrets.KOYEB_API_TOKEN }}"
 
       - name: Build and deploy the application to Koyeb
-        uses: koyeb/action-git-deploy@v1
+        uses: koyeb/action-git-deploy@e40b6fc5ae0707b7fff3a940d4b357b5c7d9dbae
         with:
           app-name: "progjut"
           service-name: "tutorial2"

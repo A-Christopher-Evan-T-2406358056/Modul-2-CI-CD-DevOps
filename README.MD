@@ -1,6 +1,8 @@
 # Laporan Refleksi
 
-## Refleksi 1
+## Modul 1
+
+### Refleksi 1
 
 **Implementasi Backend dan Exception Handling**
 Dimulai dari tingkat *low-level* atau *business logic* (serupa antara `removeById` dan `findById`), saya menggunakan
@@ -39,7 +41,7 @@ Pendekatan serupa saya terapkan untuk membuat API khusus tombol hapus (*delete*)
 *parsing* dari *body* JSON HTTP Request berjalan otomatis. Namun, saya menyadari bahwa untuk data sekecil ID, akan lebih
 efisien jika diambil langsung dari parameter URL atau *header*, daripada harus melalui *body* request.
 
-## Refleksi 2
+### Refleksi 2
 
 **1. Mengenai Kecukupan Unit Test**
 Untuk pertanyaan pertama, menurut saya cara menentukan kapan *unit test* dianggap cukup adalah dengan memahami definisi
@@ -63,3 +65,6 @@ cakupan kelas `CreateProductFunctionalTest.java`. Pengecekan jumlah item idealny
 dieksekusi. Refaktor ini membantu menyederhanakan kode (tanpa perlu menambahkan kelas baru) serta tetap menjaga
 *coverage testing* yang baik. Hal ini menunjukkan bahwa untuk setiap kode yang ingin ditulis, kita sebaiknya memikirkan
 cakupannya terlebih dahulu: apakah ini fitur baru, atau sekadar kode tambahan untuk melengkapi kode yang sudah ada.
+
+## Modul 2
+
