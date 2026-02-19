@@ -90,7 +90,7 @@ class ProductServiceTest {
     }
 
     @Test
-    void testEditProductByIdFromMoreThanOneProduct() throws ProductNotFound {
+    void testEditProductByIdFromMoreThanOneProduct() {
         Product[] product = createNDummyProducts(3);
 
         String name = "test";
