@@ -122,7 +122,7 @@ class ProductServiceTest {
     }
 
     @Test
-    void testRemoveProductByIdFromMoreThanOneProduct() throws ProductNotFound {
+    void testRemoveProductByIdFromMoreThanOneProduct() {
         Product[] product = createNDummyProducts(3);
 
         assertDoesNotThrow(() -> productService.removeById(product[0].getProductId()));
