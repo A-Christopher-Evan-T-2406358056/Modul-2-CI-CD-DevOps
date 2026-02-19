@@ -137,7 +137,7 @@
     }
 
     async function deleteProduct(button) {
-        const id = button.getAttribute('data-id');
+        const id = button.dataset.id;
 
         const IdDto = {
             id: id
