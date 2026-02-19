@@ -77,9 +77,9 @@ class ProductServiceTest {
         assertEquals(product2.getProductId(), productList.getLast().getProductId());
     }
 
-    private Product[] createNDummyProducts(int N) {
-        Product[] dummyProducts = new Product[N];
-        for (int i = 0; i < N; i++) {
+    private Product[] createNDummyProducts(int n) {
+        Product[] dummyProducts = new Product[n];
+        for (int i = 0; i < n; i++) {
             Product product = new Product();
             product.setProductName("Product" + i);
             product.setProductQuantity(rng.nextInt(0, 1000000));
