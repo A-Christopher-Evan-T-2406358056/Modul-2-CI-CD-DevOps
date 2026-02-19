@@ -20,6 +20,7 @@ sonar {
     properties {
         property("sonar.projectKey", "A-Christopher-Evan-T-2406358056_Modul-1-Coding-Standards")
         property("sonar.organization", "a-christopher-evan-t-2406358056")
+        property("sonar.sources", "src/main/java,src/test/java,src/main/resources/templates")
         property("sonar.host.url", "https://sonarcloud.io")
     }
 }
