@@ -88,10 +88,6 @@
             });
         });
 
-        function cancelEdit($cell, originalText) {
-            $cell.removeClass('editing');
-            $cell.html(originalText);
-        }
 
         function saveData($cell, newValue, originalText) {
 
@@ -134,6 +130,11 @@
             });
         }
     });
+
+    function cancelEdit($cell, originalText) {
+        $cell.removeClass('editing');
+        $cell.html(originalText);
+    }
 
     async function deleteProduct(button) {
         const id = button.getAttribute('data-id');
