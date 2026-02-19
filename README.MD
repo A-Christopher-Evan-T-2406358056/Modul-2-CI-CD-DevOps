@@ -71,6 +71,7 @@ cakupannya terlebih dahulu: apakah ini fitur baru, atau sekadar kode tambahan un
 ### Tautan
 
 [Analisis Sonarcloud](https://sonarcloud.io/project/overview?id=A-Christopher-Evan-T-2406358056_Modul-1-Coding-Standards)
+
 [Deployment Koyeb](progjut-progjut-321aaaa2.koyeb.app/)
 
 ### Code quality fixes
