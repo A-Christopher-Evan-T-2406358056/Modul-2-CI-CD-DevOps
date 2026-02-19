@@ -113,10 +113,6 @@ Number.parseInt().
 
 ### CI / CD
 
-Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current
-implementation has met the definition of Continuous Integration and Continuous
-Deployment? Explain the reasons (minimum 3 sentences)!
-
 Saya yakin dengan workflow repositori ini sudah implementasi CI / CD. Pertama implementasi workflow CI menggunakan hal
 berikut
 
