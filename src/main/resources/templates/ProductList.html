@@ -115,7 +115,7 @@
             var productDto = {
                 productId: productId,
                 productName: currentName,
-                productQuantity: parseInt(currentQty)
+                productQuantity: Number.parseInt(currentQty)
             };
 
             $.ajax({
