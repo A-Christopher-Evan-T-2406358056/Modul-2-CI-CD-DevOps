@@ -71,9 +71,9 @@ class ProductRepositoryTest {
         assertFalse(productIterator.hasNext());
     }
 
-    private Product[] createNDummyProducts(int N) {
-        Product[] dummyProducts = new Product[N];
-        for (int i = 0; i < N; i++) {
+    private Product[] createNDummyProducts(int n) {
+        Product[] dummyProducts = new Product[n];
+        for (int i = 0; i < n; i++) {
             Product product = new Product();
             product.setProductName("Product" + i);
             product.setProductQuantity(rng.nextInt(0, 1000000));
@@ -107,7 +107,7 @@ class ProductRepositoryTest {
     }
 
     @Test
-    void testRemoveProductByIdFromMoreThanOneProduct() throws ProductNotFound {
+    void testRemoveProductByIdFromMoreThanOneProduct() {
         Product[] product = createNDummyProducts(3);
 
         assertDoesNotThrow(() -> productRepository.removeById(product[0].getProductId()));
